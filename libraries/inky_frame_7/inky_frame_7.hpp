@@ -100,8 +100,8 @@ namespace pimoroni {
     // 600x448 for 5.7"
     // 640x400 for 4.0"
     InkyFrame(int width, int height) :
-      ramDisplay(width, height),
       PicoGraphics_PenInky7(width, height, ramDisplay),
+      ramDisplay(width, height),
       inky73(width, height),
       i2c(4, 5),
       rtc(&i2c),

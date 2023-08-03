@@ -14,7 +14,7 @@
 
 namespace pimoroni {
 
-  class PSRamDisplay : public IDirectDisplayDriver<uint8_t> {
+  class PSRamDisplay : public IDirectDisplayDriver<uint16_t> {
     //--------------------------------------------------
     // Variables
     //--------------------------------------------------
@@ -73,22 +73,22 @@ namespace pimoroni {
         {
           sprintf(writeBuffer, "%u", k);
 
-          write(k*1024, strlen(writeBuffer)+1, (uint8_t *)writeBuffer);
+          write(k*1024, strlen(writeBuffer)+1, (uint16_t *)writeBuffer);
         }
 
         bool bSame = true;
         for(uint k = 0; k < 1024*mb && bSame; k++)
         {
           sprintf(writeBuffer, "%u", k);
-          read(k*1024, strlen(writeBuffer)+1, (uint8_t *)readBuffer);
+          read(k*1024, strlen(writeBuffer)+1, (uint16_t *)readBuffer);
           bSame = strcmp(writeBuffer, readBuffer) ==0;
           printf("[%u] %s == %s ? %s\n", k, writeBuffer, readBuffer, bSame ? "Success" : "Failure");
         }
       }
       
-      void write_pixel(const Point &p, uint8_t colour) override;
-      void write_pixel_span(const Point &p, uint l, uint8_t colour) override;
-      void read_pixel_span(const Point &p, uint l, uint8_t *data) override;
+      void write_pixel(const Point &p, uint16_t colour) override;
+      void write_pixel_span(const Point &p, uint l, uint16_t colour) override;
+      void read_pixel_span(const Point &p, uint l, uint16_t *data) override;
 
       int __not_in_flash_func(SpiSetBlocking)(const uint16_t uSrc, size_t uLen) 
       {
@@ -116,13 +116,13 @@ namespace pimoroni {
 
     private:
       void init();
-      void write(uint32_t address, size_t len, const uint8_t *data);
-      void write(uint32_t address, size_t len, const uint8_t byte);
-      void read(uint32_t address, size_t len, uint8_t *data);
+      void write(uint32_t address, size_t len, const uint16_t *data);
+      void write(uint32_t address, size_t len, const uint16_t byte);
+      void read(uint32_t address, size_t len, uint16_t *data);
 
       uint32_t pointToAddress(const Point &p)
       {
-        return start_address + (p.y * width) + p.x;
+        return start_address + (2 * ((p.y * width) + p.x));
       }
   };
 }

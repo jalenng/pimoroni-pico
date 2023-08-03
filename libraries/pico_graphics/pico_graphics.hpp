@@ -558,9 +558,9 @@ namespace pimoroni {
       std::array<uint8_t, 16> candidates;
     
       uint color;
-      IDirectDisplayDriver<uint8_t> &driver;
+      IDirectDisplayDriver<uint16_t> &driver;
 
-      PicoGraphics_PenInky7(uint16_t width, uint16_t height, IDirectDisplayDriver<uint8_t> &direct_display_driver);
+      PicoGraphics_PenInky7(uint16_t width, uint16_t height, IDirectDisplayDriver<uint16_t> &direct_display_driver);
       void set_pen(uint c) override;
       void set_pen(uint8_t r, uint8_t g, uint8_t b) override;
       int create_pen(uint8_t r, uint8_t g, uint8_t b) override;
